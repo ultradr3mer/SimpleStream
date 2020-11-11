@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace SimpleStreamWpf.Properties {
+namespace OneClickStream.Properties {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace SimpleStreamWpf.Properties {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("SimpleStreamWpf.Properties.Resources", typeof(Resources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("OneClickStream.Properties.Resources", typeof(Resources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -66,26 +66,23 @@ namespace SimpleStreamWpf.Properties {
         ///  &lt;link href=&quot;http://amp.azure.net/libs/amp/latest/skins/amp-default/azuremediaplayer.min.css&quot; rel=&quot;stylesheet&quot;&gt;
         ///  &lt;script src=&quot;http://amp.azure.net/libs/amp/latest/azuremediaplayer.min.js&quot;&gt;&lt;/script&gt;
         ///  &lt;style&gt;
-        ///    .center {
-        ///      display: block;
-        ///      margin-left: auto;
-        ///      margin-right: auto;
+        ///    html {
+        ///      height: 100%;
         ///    }
         ///
         ///    body {
-        ///      background-color: #333333;
-        ///    }
-        ///
-        ///    body {
+        ///      overflow: hidden;
+        ///      height: 100%;
         ///      margin: 0px;
         ///    }
         ///  &lt;/style&gt;
         ///&lt;/head&gt;
-        ///&lt;body scroll=&quot;no&quot; [rest of string was truncated]&quot;;.
+        ///&lt;body scroll=&quot;no&quot;&gt;
+        ///  &lt;div poster=&quot;&quot; tabindex=&quot;-1&quot; style=&quot;margin: 0px; padding: 0px; [rest of string was truncated]&quot;;.
         /// </summary>
-        internal static string Azure_Media_Player {
+        internal static string AzureMediaPlayer {
             get {
-                return ResourceManager.GetString("Azure_Media_Player", resourceCulture);
+                return ResourceManager.GetString("AzureMediaPlayer", resourceCulture);
             }
         }
         
@@ -100,9 +97,9 @@ namespace SimpleStreamWpf.Properties {
         ///    &quot;type&quot;: &quot;rtmp_custom&quot;
         ///}.
         /// </summary>
-        internal static string service {
+        internal static string Service {
             get {
-                return ResourceManager.GetString("service", resourceCulture);
+                return ResourceManager.GetString("Service", resourceCulture);
             }
         }
     }

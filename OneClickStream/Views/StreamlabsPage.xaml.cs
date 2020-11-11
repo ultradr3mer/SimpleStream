@@ -1,24 +1,24 @@
-﻿using SimpleStream.ViewModels;
+﻿using OneClickStream.ViewModels;
+using Prism.Regions;
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
-using System.Windows;
 using System.Windows.Controls;
 
-namespace SimpleStreamWpf.Views
+namespace OneClickStream.Views
 {
   /// <summary>
-  /// Interaction logic for MainWindow.xaml
+  /// Interaction logic for StreamlabsPage
   /// </summary>
-  public partial class MainWindow : Window
+  public partial class StreamlabsPage : UserControl, INavigationAware
   {
     #region Constructors
 
-    public MainWindow()
+    public StreamlabsPage(StreamlabsViewModel viewModel)
     {
       InitializeComponent();
-      this.ViewModel = App.Resolve<MainViewModel>();
-      this.ViewModel.PropertyChanged += this.ViewModelPropertyChanged;
+
+      this.viewModel = viewModel;
     }
 
     #endregion Constructors
@@ -28,15 +28,23 @@ namespace SimpleStreamWpf.Views
     [ComImport, Guid("6D5140C1-7436-11CE-8034-00AA006009FA"), InterfaceType(ComInterfaceType.InterfaceIsIUnknown)]
     private interface IOleServiceProvider
     {
+      #region Methods
+
       [PreserveSig]
       int QueryService([In] ref Guid guidService, [In] ref Guid riid, [MarshalAs(UnmanagedType.IDispatch)] out object ppvObject);
+
+      #endregion Methods
     }
 
     #endregion Interfaces
 
     #region Properties
 
-    public MainViewModel ViewModel { get { return this.DataContext as MainViewModel; } set { this.DataContext = value; } }
+    private StreamlabsViewModel viewModel
+    {
+      get { return this.DataContext as StreamlabsViewModel; }
+      set { this.DataContext = value; }
+    }
 
     #endregion Properties
 
@@ -63,25 +71,42 @@ namespace SimpleStreamWpf.Views
       }
     }
 
+    private void NavigateBrowserTo(string videoSource)
+    {
+      var html = Properties.Resources.AzureMediaPlayer;
+      html = html.Replace("{videoSource}", videoSource);
+      this.browser.NavigateToString(html);
+      SetSilent(browser, true);
+    }
+
+    private void UserControlDataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+    {
+      var newViewModel = (StreamlabsViewModel)e.NewValue;
+
+      newViewModel.PropertyChanged += this.ViewModelPropertyChanged;
+    }
+
     private void ViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
     {
-      if (e.PropertyName == nameof(MainViewModel.BrowserUrl))
+      if (e.PropertyName == nameof(StreamlabsViewModel.PreviewSource))
       {
-        var html = Properties.Resources.Azure_Media_Player;
-        html = html.Replace("{videoSource}", this.ViewModel.BrowserUrl);
-        this.browser.NavigateToString(html);
-        SetSilent(this.browser, true);
+        NavigateBrowserTo(this.viewModel.PreviewSource);
       }
     }
 
-    private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+    public void OnNavigatedTo(NavigationContext navigationContext)
     {
-      this.ViewModel.Unload();
+      this.viewModel.Initialize();
     }
 
-    private async void Window_Loaded(object sender, RoutedEventArgs e)
+    public bool IsNavigationTarget(NavigationContext navigationContext)
     {
-      await this.ViewModel.Start();
+      return true;
+    }
+
+    public void OnNavigatedFrom(NavigationContext navigationContext)
+    {
+      this.browser.NavigateToString("<body/>");
     }
 
     #endregion Methods

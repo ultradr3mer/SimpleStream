@@ -1,0 +1,20 @@
+﻿<UserControl
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:prism="http://prismlibrary.com/"
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d" x:Class="OneClickStream.Views.StreamlabsPage"
+             d:DesignWidth="152" d:DesignHeight="127" DataContextChanged="UserControlDataContextChanged">
+  <Grid>
+    <Grid.RowDefinitions>
+      <RowDefinition Height="Auto"/>
+      <RowDefinition Height="*"/>
+      <RowDefinition Height="Auto"/>
+    </Grid.RowDefinitions>
+    <Label>Preview:</Label>
+    <WebBrowser x:Name="browser" 
+                VerticalAlignment="Stretch"
+                HorizontalAlignment="Stretch" Grid.Row="1"/>
+    <Button Margin="3" Content="Refresh" HorizontalAlignment="Left" Command="{Binding RefreshCommand}" Grid.Row="2"/>
+    <Button Margin="3" Content="Continue" HorizontalAlignment="Right" Command="{Binding ContinueCommand}" Grid.Row="2"/>
+  </Grid>
+</UserControl>
