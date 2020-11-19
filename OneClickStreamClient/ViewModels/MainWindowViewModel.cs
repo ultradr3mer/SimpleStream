@@ -1,27 +1,21 @@
 ﻿using Microsoft.Extensions.Configuration;
-using OneClickStream.Configuration;
-using OneClickStream.Services;
-using Prism.Commands;
+using OneClickStreamClient.Configuration;
+using OneClickStreamClient.Services;
 using Prism.Mvvm;
 using Prism.Regions;
-using System;
-using System.ComponentModel;
 using System.Diagnostics;
 using System.IO;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Input;
 using Unity;
 
-namespace OneClickStream.ViewModels
+namespace OneClickStreamClient.ViewModels
 {
   public class MainWindowViewModel : BindableBase
   {
+
     #region Fields
 
-    private readonly IRegionManager regionManager;
-    private Client client;
-    private ConfigWrapper config;
+    private readonly Client client;
+    private readonly ConfigWrapper config;
 
     #endregion Fields
 
@@ -35,20 +29,19 @@ namespace OneClickStream.ViewModels
                   .Build());
       container.RegisterInstance(this.config);
 
-      this.client = new Client(new CustomHttpClient(config.Username, config.Password));
+      this.client = new Client(new CustomHttpClient(this.config.Username, this.config.Password));
       container.RegisterInstance(this.client);
     }
 
     #endregion Constructors
 
-
     #region Properties
 
-    public string StreamId { get; set; }
     public Process ObsProcess { get; set; }
     public string OutputSource { get; set; }
-    public string Title { get; set; } = "Prism Application";
     public string PreviewSource { get; set; }
+    public string StreamId { get; set; }
+    public string Title { get; set; } = "OneClickStreamClient";
 
     #endregion Properties
 
@@ -60,5 +53,6 @@ namespace OneClickStream.ViewModels
     }
 
     #endregion Methods
+
   }
 }

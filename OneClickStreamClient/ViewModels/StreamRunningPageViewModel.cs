@@ -1,8 +1,9 @@
-﻿using OneClickStream.Services;
+﻿using OneClickStreamClient.Services;
 using Prism.Commands;
 using Prism.Mvvm;
+using System.Web;
 
-namespace OneClickStream.ViewModels
+namespace OneClickStreamClient.ViewModels
 {
   public class StreamRunningPageViewModel : BindableBase
   {
@@ -37,14 +38,15 @@ namespace OneClickStream.ViewModels
 
     private async void EndStreamCommandExecute()
     {
-      await this.client.StreamCleanupAsync(this.mainWindowViewModel.StreamId);
       this.ShutDownObs();
+      await this.client.StreamCleanupAsync(this.mainWindowViewModel.StreamId);
       System.Windows.Application.Current.Shutdown();
     }
 
     private void OpenBrowserCommandExecute()
     {
-      System.Diagnostics.Process.Start("https://oneclickstream.azurewebsites.net/stream?source=" + this.mainWindowViewModel.OutputSource);
+      string source = HttpUtility.HtmlEncode(this.mainWindowViewModel.OutputSource + "&format=dash&heuristicprofile=lowlatency");
+      System.Diagnostics.Process.Start("https://oneclickstream.azurewebsites.net/stream?source=" + source);
     }
 
     private void ShutDownObs()

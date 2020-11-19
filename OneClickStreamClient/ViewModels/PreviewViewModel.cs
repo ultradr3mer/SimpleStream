@@ -1,13 +1,13 @@
-﻿using OneClickStream.Services;
-using OneClickStream.Views;
+﻿using OneClickStreamClient.Services;
+using OneClickStreamClient.Views;
 using Prism.Commands;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 
-namespace OneClickStream.ViewModels
+namespace OneClickStreamClient.ViewModels
 {
-  public class StreamlabsViewModel : BindableBase
+  public class PreviewViewModel : BindableBase
   {
     #region Fields
 
@@ -22,7 +22,7 @@ namespace OneClickStream.ViewModels
 
     #region Constructors
 
-    public StreamlabsViewModel(Client client, MainWindowViewModel mainWindowViewModel, IRegionManager regionManager)
+    public PreviewViewModel(Client client, MainWindowViewModel mainWindowViewModel, IRegionManager regionManager)
     {
       this.RefreshCommand = new DelegateCommand(this.RefreshCommandExecute);
       this.ContinueCommand = new DelegateCommand(this.ContinueCommandExecute);
@@ -45,14 +45,14 @@ namespace OneClickStream.ViewModels
 
     private async void ContinueCommandExecute()
     {
-      var outputResponse = await this.client.StreamCreateoutputsAsync(this.mainWindowViewModel.StreamId);
-      this.mainWindowViewModel.OutputSource = outputResponse.EndpointDataSource;
+      OutputsPostResultData outputResponse = await this.client.StreamCreateoutputsAsync(this.mainWindowViewModel.StreamId);
+      this.mainWindowViewModel.OutputSource = outputResponse.EndpointSource;
       this.regionManager.RequestNavigate("MainRegion", new Uri(nameof(StreamRunningPage), UriKind.Relative));
     }
 
     private void RefreshCommandExecute()
     {
-      this.RaisePropertyChanged(nameof(PreviewSource));
+      this.RaisePropertyChanged(nameof(this.PreviewSource));
     }
 
     internal void Initialize()

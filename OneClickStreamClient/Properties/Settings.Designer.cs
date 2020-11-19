@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace OneClickStream.Properties
+namespace OneClickStreamClient.Properties
 {
 
 

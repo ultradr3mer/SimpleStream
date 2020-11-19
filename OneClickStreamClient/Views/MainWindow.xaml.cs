@@ -1,15 +1,16 @@
-﻿using OneClickStream.ViewModels;
+﻿using MahApps.Metro.Controls;
+using OneClickStreamClient.ViewModels;
 using Prism.Ioc;
 using Prism.Regions;
 using System.Windows;
 using Unity;
 
-namespace OneClickStream.Views
+namespace OneClickStreamClient.Views
 {
   /// <summary>
   /// Interaction logic for MainWindow.xaml
   /// </summary>
-  public partial class MainWindow : Window
+  public partial class MainWindow : MetroWindow
   {
     #region Constructors
 
@@ -19,6 +20,7 @@ namespace OneClickStream.Views
 
       regionManager.RegisterViewWithRegion("MainRegion", () => container.Resolve<StartupPage>());
       regionManager.RegisterViewWithRegion("MainRegion", () => container.Resolve<StreamlabsPage>());
+      regionManager.RegisterViewWithRegion("MainRegion", () => container.Resolve<PreviewPage>());
       regionManager.RegisterViewWithRegion("MainRegion", () => container.Resolve<StreamRunningPage>());
     }
 

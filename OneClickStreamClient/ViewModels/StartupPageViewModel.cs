@@ -1,13 +1,13 @@
-﻿using OneClickStream.Configuration;
-using OneClickStream.Services;
-using OneClickStream.Views;
+﻿using OneClickStreamClient.Configuration;
+using OneClickStreamClient.Services;
+using OneClickStreamClient.Views;
 using Prism.Mvvm;
 using Prism.Regions;
 using System;
 using System.Diagnostics;
 using System.IO;
 
-namespace OneClickStream.ViewModels
+namespace OneClickStreamClient.ViewModels
 {
   public class StartupPageViewModel : BindableBase
   {
@@ -47,7 +47,7 @@ namespace OneClickStream.ViewModels
 
     private void UpdateConfig(string ingestUrl)
     {
-      string serviceJson = OneClickStream.Properties.Resources.Service.Replace("{server}", ingestUrl);
+      string serviceJson = OneClickStreamClient.Properties.Resources.Service.Replace("{server}", ingestUrl);
 
       if (File.Exists(config.ConfigFile))
       {

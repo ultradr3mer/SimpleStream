@@ -1,7 +1,7 @@
-﻿using OneClickStream.ViewModels;
+﻿using OneClickStreamClient.ViewModels;
 using System.Windows.Controls;
 
-namespace OneClickStream.Views
+namespace OneClickStreamClient.Views
 {
   /// <summary>
   /// Interaction logic for PrismUserControl1

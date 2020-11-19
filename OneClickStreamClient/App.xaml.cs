@@ -1,9 +1,9 @@
-﻿using OneClickStream.ViewModels;
-using OneClickStream.Views;
+﻿using OneClickStreamClient.ViewModels;
+using OneClickStreamClient.Views;
 using Prism.Ioc;
 using System.Windows;
 
-namespace OneClickStream
+namespace OneClickStreamClient
 {
   /// <summary>
   /// Interaction logic for App.xaml

@@ -1,22 +1,22 @@
-﻿using OneClickStream.ViewModels;
+﻿using OneClickStreamClient.ViewModels;
 using Prism.Regions;
 using System;
 using System.Reflection;
 using System.Runtime.InteropServices;
 using System.Windows.Controls;
 
-namespace OneClickStream.Views
+namespace OneClickStreamClient.Views
 {
   /// <summary>
-  /// Interaction logic for StreamlabsPage
+  /// Interaction logic for PreviewPage.xaml
   /// </summary>
-  public partial class StreamlabsPage : UserControl, INavigationAware
+  public partial class PreviewPage : UserControl, INavigationAware
   {
     #region Constructors
 
-    public StreamlabsPage(StreamlabsViewModel viewModel)
+    public PreviewPage(PreviewViewModel viewModel)
     {
-      InitializeComponent();
+      this.InitializeComponent();
 
       this.viewModel = viewModel;
     }
@@ -40,9 +40,9 @@ namespace OneClickStream.Views
 
     #region Properties
 
-    private StreamlabsViewModel viewModel
+    private PreviewViewModel viewModel
     {
-      get { return this.DataContext as StreamlabsViewModel; }
+      get { return this.DataContext as PreviewViewModel; }
       set { this.DataContext = value; }
     }
 
@@ -53,50 +53,22 @@ namespace OneClickStream.Views
     public static void SetSilent(WebBrowser browser, bool silent)
     {
       if (browser == null)
+      {
         throw new ArgumentNullException("browser");
+      }
 
-      // get an IWebBrowser2 from the document
       IOleServiceProvider sp = browser.Document as IOleServiceProvider;
       if (sp != null)
       {
         Guid IID_IWebBrowserApp = new Guid("0002DF05-0000-0000-C000-000000000046");
         Guid IID_IWebBrowser2 = new Guid("D30C1661-CDAF-11d0-8A3E-00C04FC9E26E");
 
-        object webBrowser;
-        sp.QueryService(ref IID_IWebBrowserApp, ref IID_IWebBrowser2, out webBrowser);
+        sp.QueryService(ref IID_IWebBrowserApp, ref IID_IWebBrowser2, out object webBrowser);
         if (webBrowser != null)
         {
           webBrowser.GetType().InvokeMember("Silent", BindingFlags.Instance | BindingFlags.Public | BindingFlags.PutDispProperty, null, webBrowser, new object[] { silent });
         }
       }
-    }
-
-    private void NavigateBrowserTo(string videoSource)
-    {
-      var html = Properties.Resources.AzureMediaPlayer;
-      html = html.Replace("{videoSource}", videoSource);
-      this.browser.NavigateToString(html);
-      SetSilent(browser, true);
-    }
-
-    private void UserControlDataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
-    {
-      var newViewModel = (StreamlabsViewModel)e.NewValue;
-
-      newViewModel.PropertyChanged += this.ViewModelPropertyChanged;
-    }
-
-    private void ViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
-    {
-      if (e.PropertyName == nameof(StreamlabsViewModel.PreviewSource))
-      {
-        NavigateBrowserTo(this.viewModel.PreviewSource);
-      }
-    }
-
-    public void OnNavigatedTo(NavigationContext navigationContext)
-    {
-      this.viewModel.Initialize();
     }
 
     public bool IsNavigationTarget(NavigationContext navigationContext)
@@ -107,6 +79,34 @@ namespace OneClickStream.Views
     public void OnNavigatedFrom(NavigationContext navigationContext)
     {
       this.browser.NavigateToString("<body/>");
+    }
+
+    public void OnNavigatedTo(NavigationContext navigationContext)
+    {
+      this.viewModel.Initialize();
+    }
+
+    private void NavigateBrowserTo(string videoSource)
+    {
+      string html = Properties.Resources.AzureMediaPlayer;
+      html = html.Replace("{videoSource}", videoSource);
+      this.browser.NavigateToString(html);
+      SetSilent(this.browser, true);
+    }
+
+    private void UserControlDataContextChanged(object sender, System.Windows.DependencyPropertyChangedEventArgs e)
+    {
+      PreviewViewModel newViewModel = (PreviewViewModel)e.NewValue;
+
+      newViewModel.PropertyChanged += this.ViewModelPropertyChanged;
+    }
+
+    private void ViewModelPropertyChanged(object sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+      if (e.PropertyName == nameof(PreviewViewModel.PreviewSource))
+      {
+        this.NavigateBrowserTo(this.viewModel.PreviewSource);
+      }
     }
 
     #endregion Methods
